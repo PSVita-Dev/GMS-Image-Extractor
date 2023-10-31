@@ -24,7 +24,7 @@ if __name__ == "__main__":
                 while(data[pngend:pngend+4] != b'\xAE\x42\x60\x82'):
                     pngend += 1
                     
-                f.write(data[i:pngend])
+                f.write(data[i:pngend]+b'\xAE\x42\x60\x82')
                 f.close()
             i += 1
             if(data[i:i+4] == b'AUDO'):
