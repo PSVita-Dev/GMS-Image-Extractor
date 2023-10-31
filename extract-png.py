@@ -25,7 +25,7 @@ if __name__ == "__main__":
                     pngend += 1
                     
                 f.write(data[i:pngend])
-                
+                f.close()
             i += 1
             if(data[i:i+4] == b'AUDO'):
                 print("Done extracting.")
