@@ -18,15 +18,15 @@ if __name__ == "__main__":
         i = 4
         
         while(data[:i]):
-            if(data[i-4:i] == b'\x89PNG'):
+            if(data[i:i+4] == b'\x89PNG'):
                 f = open("texture_"+str(i)+".png", "wb")
                 pngend = i
                 while(data[pngend:pngend+4] != b'\xAE\x42\x60\x82'):
                     pngend += 1
                     
-                f.write(data[i-4:pngend])
+                f.write(data[i:pngend])
                 
-            i += 4
+            i += 1
             if(data[i:i+4] == b'AUDO'):
                 print("Done extracting.")
                 sys.exit(0)
