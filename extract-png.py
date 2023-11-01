@@ -12,24 +12,29 @@ if __name__ == "__main__":
     f = open(sys.argv[1], "rb")
     data = f.read()
     f.close()
+
     
     if data[:4] == b'FORM':
         print("Found FORM")
-        i = 4
+        i = data.find(b'\x89PNG')
         
-        while(data[:i]):
-            if(data[i:i+4] == b'\x89PNG'):
+        while True:
+            
+            if(data[i-4:i] == b'\x89PNG'):
                 f = open("texture_"+str(i)+".png", "wb")
-                pngend = i
-                while(data[pngend:pngend+4] != b'\xAE\x42\x60\x82'):
-                    pngend += 1
+                
+                pngend = data.find(b'\xAE\x42\x60\x82', i)
                     
-                f.write(data[i:pngend]+b'\xAE\x42\x60\x82')
+                f.write(data[i-4:pngend]+b'\xAE\x42\x60\x82')
                 f.close()
+                i = data.find(b'\x89PNG', pngend)
+                
+                if i == -1:
+                    print("Done extracting.")
+                    sys.exit(0)
+                    
+                print("Wrote: texture_"+str(i)+".png")
             i += 1
-            if(data[i:i+4] == b'AUDO'):
-                print("Done extracting.")
-                sys.exit(0)
             
         
     else:
